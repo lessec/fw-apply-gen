@@ -27,7 +27,7 @@ def check_port(port):
     elif port == 80:
         port_name = "http"
         port_code = 8
-    elif port == range(3000, 3388) and port == range(3390, 3699):
+    elif port in range(3000, 3388) and port in range(3390, 3699):
         port_name = "sap"
         port_code = 9
     elif port == 3389:
@@ -46,11 +46,6 @@ def check_port(port):
 
 
 def main():
-    orgin_file = "./fwtable.xlsx"
-
-    if not os.path.isfile(orgin_file):    
-        exit(print("\""+orgin_file+"\" does not exist."))
-
     src_name = "Security TF PC"
     src_dest1 = ['1', '1', '1', '1']
     src_dest2 = ['2', '2', '2', '2']
@@ -66,7 +61,14 @@ def main():
     trg_dests = trg_dests.split(",")
     new_file = trg_name+".xlsx"
 
-    df = pd.concat([pd.read_excel(orgin_file, header=None)], ignore_index=True)
+    df = pd.DataFrame(columns=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    df.loc[0, 0] = "Source Name"
+    df.loc[0, 1] = "Source IP"
+    df.loc[0, 5] = "Target Name"
+    df.loc[0, 6] = "Target IP"
+    df.loc[0, 10] = "Target Code"
+    df.loc[0, 11] = "Target Port Code"
+    df.loc[0, 12] = "Target Port Number"
 
     # i, j, k = 0, 0, 1
     print(" - Gnerated log:", end='\n   | ')
