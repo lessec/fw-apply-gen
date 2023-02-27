@@ -1,5 +1,6 @@
-import os
+import sys
 import pandas as pd
+import clipboard as cb
 
 
 def check_port(port):
@@ -46,8 +47,8 @@ def check_port(port):
 
 
 def split_ip_port(ip_port):
-    ip, port = ip_port.split(':')
-    return ip, port
+    s_ip, s_port = ip_port.split(':')
+    return s_ip, s_port
 
 
 def main():
@@ -99,7 +100,25 @@ def main():
     df.to_excel(fw_file, index=False, header=False)
     print("\n - Generated file: "+fw_file+"\n"+divider)
 
+    print("Information for Firewall Form")
+    rs_1st = " - Source Name: "+src_name+"\n - Target Name: "+trg_name+"\n - IP and Port"
+    for j, trg_dst_j in enumerate(trg_dests):
+        trg_ip, trg_port = split_ip_port(trg_dst_j)
+        rs_1st += "\n   • Target IP: "+trg_ip+"\n   • Target Port: "+trg_port
+    cb.copy(rs_1st)
+    print(rs_1st)
+    input("Press Enter to next...")
+    sys.stdout.write("\033[F")
+    print(divider)
+
+    print("Explain for Firewall Form")
+    rs_2nd = " - Generate Firewall Form for "+trg_name+" service"
+    cb.copy(rs_2nd)
+    print(rs_2nd)
+    input("Press Enter to exit...")
+    sys.stdout.write("\033[F")
+    print(divider)
+
 
 if __name__ == "__main__":
-    main()
-    # 1.2.3.4:80,2.3.4.5:443,3.4.5.6:8080
+    main() # e.g. Name: test, IP&Port: 1.2.3.4:80,2.3.4.5:443,3.4.5.6:8080
